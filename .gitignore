@@ -1,0 +1,7 @@
+.env.bak
+test/test_pandas.py
+test/test_class.py
+test/test_chat_friend_add_room_id.py
+test/test_C2_BK.py
+test/old_user_bk.py
+test/fix_chat_user_alex.py
