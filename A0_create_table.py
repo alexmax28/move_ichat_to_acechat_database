@@ -136,36 +136,39 @@ CREATE TABLE `chat_record` (
 # 10/5 新增 im_room_id , jid 欄位
 create_table_chat_room = '''
 CREATE TABLE `chat_room` (
-  `room_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `room_name` varchar(50) DEFAULT NULL,
+  `room_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '群組ID',
+  `room_name` varchar(50) DEFAULT NULL COMMENT '群組名稱',
   `create_time` datetime DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL COMMENT '0-私聊,1-群聊',
   `room_icon` varchar(50) DEFAULT NULL,
   `content_id` bigint(20) DEFAULT NULL COMMENT '最後一筆聊天訊息',
   `user_count` int(11) DEFAULT NULL,
   `channel_account` varchar(50) DEFAULT NULL,
-  `room_mute_type` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `room_mute_type` int(11) DEFAULT NULL COMMENT '群禁言狀態: 0:未禁言 1:禁言',
+  `user_id` int(11) DEFAULT NULL COMMENT '群主ID',
+  `room_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '群組狀態: 0-正常，1-鎖定',
+  `room_description` varchar(100) DEFAULT NULL COMMENT '群組描述',
+  `update_time` datetime DEFAULT NULL COMMENT '更新時間',
   `im_room_id` varchar(100) DEFAULT NULL,
   `jid` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
-# 10/5 chart_room_user  room_id 欄位改型態 varchar(100)
-create_table_chat_room_user = '''
-CREATE TABLE `chat_room_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) DEFAULT NULL,
-  `room_id` varchar(100) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `leave_time` datetime DEFAULT NULL,
-  `inviter` varchar(50) DEFAULT NULL,
-  `inviter_type` int(11) DEFAULT NULL,
-  `mute_type` int(11) DEFAULT NULL,
-  `notification_flag` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-'''
+# # 10/5 chart_room_user  room_id 欄位改型態 varchar(100)
+# create_table_chat_room_user = '''
+# CREATE TABLE `chat_room_user` (
+#   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+#   `user_id` bigint(20) DEFAULT NULL,
+#   `room_id` varchar(100) DEFAULT NULL,
+#   `create_time` datetime DEFAULT NULL,
+#   `leave_time` datetime DEFAULT NULL,
+#   `inviter` varchar(50) DEFAULT NULL,
+#   `inviter_type` int(11) DEFAULT NULL,
+#   `mute_type` int(11) DEFAULT NULL,
+#   `notification_flag` int(11) NOT NULL DEFAULT '0',
+#   PRIMARY KEY (`id`)
+# ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+# '''
 
 create_table_chat_user = '''
 CREATE TABLE `chat_user` (
@@ -195,7 +198,8 @@ CREATE TABLE `chat_user` (
   `refresh_ios_tId` varchar(512) DEFAULT NULL,
   `refresh_android_tId` varchar(512) DEFAULT NULL,
   `area_code` varchar(10) DEFAULT NULL COMMENT '區碼',
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `chat_user_UN` (`user_name`,`area_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
 
@@ -210,40 +214,28 @@ CREATE TABLE `im_mapping` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 '''
 
-# ===================================================== 測試用新增 chat_user_alex 之後 chat_user 欄位要改成這樣
-create_table_chat_user_alex = '''
-CREATE TABLE `chat_user_alex` (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) DEFAULT NULL COMMENT '帳號',
-  `password` varchar(128) DEFAULT NULL,
-  `nick_name` varchar(50) DEFAULT NULL,
-  `is_online` int(11) DEFAULT NULL COMMENT '是否在線',
-  `type` int(11) DEFAULT NULL COMMENT '帳號類型 0:會員 1:管理員',
-  `status` int(11) DEFAULT NULL COMMENT '狀態 0:停用 1:啟用',
-  `phone` varchar(20) DEFAULT NULL,
-  `tId` varchar(512) DEFAULT NULL,
-  `device` int(11) DEFAULT NULL,
-  `firebase_token` varchar(512) DEFAULT NULL,
-  `channel_account` varchar(50) DEFAULT NULL,
-  `ip` varchar(50) DEFAULT NULL,
-  `last_online_time` datetime DEFAULT NULL,
-  `tId_android` varchar(512) DEFAULT NULL,
-  `tId_ios` varchar(512) DEFAULT NULL,
-  `data_type` int(11) NOT NULL DEFAULT '0' COMMENT '外部倒入資料 0:內部 1:外部',
-  `create_time` datetime DEFAULT NULL COMMENT '創建時間',
-  `update_time` datetime DEFAULT NULL,
-  `show_telephone` int(11) DEFAULT '1' COMMENT '誰可以看到我的手機號碼,0:所有人不允許,1:所有人允許,2:所有好友允許',
-  `is_vibration` int(11) DEFAULT '1' COMMENT '消息來時震動,0:關閉,1:開啟',
-  `multiple_devices` int(11) DEFAULT '1' COMMENT '支持多設備登入,0:關閉,1:開啟',
-  `refresh_tId` varchar(512) DEFAULT NULL,
-  `refresh_ios_tId` varchar(512) DEFAULT NULL,
-  `refresh_android_tId` varchar(512) DEFAULT NULL,
-  `area_code` varchar(10) DEFAULT NULL COMMENT '區碼',
-  PRIMARY KEY (`user_id`)
+# ===================================================== 測試用新增 chat_room_user_test 之後 chat_room_user 欄位要改成這樣
+
+
+# chart_room_user_test  room_id 欄位改型態 varchar(100)
+create_table_chat_room_user = '''
+CREATE TABLE `chat_room_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `room_id` bigint(20) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `leave_time` datetime DEFAULT NULL,
+  `inviter` varchar(50) DEFAULT NULL,
+  `inviter_type` int(11) DEFAULT NULL,
+  `mute_type` int(11) DEFAULT NULL,
+  `notification_flag` int(11) NOT NULL DEFAULT '0',
+  `room_background_img` varchar(128) DEFAULT NULL COMMENT '聊天室背景圖片',
+  `clean_time` datetime(3) DEFAULT NULL COMMENT '聊天清空時間',
+  `read_destory_status` int(11) DEFAULT '0' COMMENT '閱後消毀開關 0:關閉 1:開啟',
+  `room_user_type` int(11) NOT NULL DEFAULT '0' COMMENT '0:一般用戶 1:房間管理員',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
-
-
 
 try:
         # # 执行sql语句
@@ -261,24 +253,30 @@ try:
         # # chat_friend
         # sqlcursor.execute(create_table_chat_friend)
         # db.commit()
+        
         # # chat_record
         # sqlcursor.execute(create_table_chat_record)
         # db.commit()
+
         # # chat_room
         # sqlcursor.execute(create_table_chat_room)
         # db.commit()
-        # # chat_room_user
-        # sqlcursor.execute(create_table_chat_room_user)
+        
+        # # chat_user
+        # sqlcursor.execute(create_table_chat_user)
         # db.commit()
-        # chat_user
-        sqlcursor.execute(create_table_chat_user)
-        db.commit()
+
         # # im_mapping
         # sqlcursor.execute(create_table_im_mapping)
         # db.commit()
 
-        # # 測試用新增 chat_user_alex 之後 chat_user 欄位要改成這樣
-        # sqlcursor.execute(create_table_chat_user_alex)
+        # chat_room_user
+        sqlcursor.execute(create_table_chat_room_user)
+        db.commit()
+
+
+        # # 測試用新增 chat_room_user_test 之後 chat_room_user 欄位要改成這樣  room_id 欄位改型態 varchar(100)
+        # sqlcursor.execute(create_table_chat_room_user_test)
         # db.commit()
 
 

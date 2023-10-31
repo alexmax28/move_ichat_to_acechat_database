@@ -44,11 +44,10 @@ SELECT
 	c.room_id,
 	a.create_time,
 	a.leave_time,
-	d.user_name 
+	c.user_id 
 FROM
 	room_user_test AS a
     LEFT JOIN chat_room AS c ON a.room_id = c.im_room_id
-	LEFT JOIN chat_user AS d ON a.user_id = d.user_id
     where a.create_time >='{env_start_time}' AND a.create_time <'{env_end_time}'
     order by a.id;"""
 
@@ -61,8 +60,8 @@ for i in range(0,len(resjoin)):
     try:
         # 执行sql语句
         #  # test
-        sql3 = f"""INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
-                        VALUES ({resjoin[i][1]},'{resjoin[i][2]}','{resjoin[i][3]}','{resjoin[i][4]}','{resjoin[i][5]}',0,0,0)"""
+        sql3 = f"""INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag,clean_time)
+                        VALUES ({resjoin[i][1]},'{resjoin[i][2]}','{resjoin[i][3]}','{resjoin[i][4]}','{resjoin[i][5]}',0,0,0,'{resjoin[i][3]}')"""
         
         print(sql3)
         sqlcursor.execute(sql3)
@@ -73,5 +72,7 @@ for i in range(0,len(resjoin)):
         db.rollback()
         print(f"Error: {str(e)}")
    
+# 更新邀請者欄位
+
 # 关闭数据库连接
 db.close()
