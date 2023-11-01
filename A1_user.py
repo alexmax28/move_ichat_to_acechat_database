@@ -35,19 +35,6 @@ end_dt_object = datetime.datetime.strptime(end_date_time_string, '%Y-%m-%d %H:%M
 start_timestamp = start_dt_object.timestamp()
 end_timestamp = end_dt_object.timestamp()
 
-# start_timestamp = start_dt_object.timestamp() + eight_hours.total_seconds()
-# end_timestamp = end_dt_object.timestamp() + eight_hours.total_seconds()
-# print(f"start_timestamp:{start_timestamp}")
-# print(f"end_timestamp:{end_timestamp}")
-
-# start_timestamp = start_dt_object.timestamp()
-# end_timestamp = end_dt_object.timestamp()
-# print(f"start_timestamp:{start_timestamp}")
-# print(f"end_timestamp:{end_timestamp}")
-
-
-# start_timestamp = start_dt_object.timestamp() - eight_hours.total_seconds()
-# end_timestamp = end_dt_object.timestamp() - eight_hours.total_seconds()
 print(f"start_timestamp:{start_timestamp}")
 print(f"end_timestamp:{end_timestamp}")
 

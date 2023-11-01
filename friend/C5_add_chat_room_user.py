@@ -101,21 +101,21 @@ for i in range(0,count):
         else:
             print("輸入的字串格式不正確，無法拆分成前後兩部分。")
 
-        sql1 = f""" SELECT a.user_id, a.user_name FROM `chat_user` as a
-                    where a.user_id = {first_user_id};"""
-        sqlcursor.execute(sql1)
-        res1 = sqlcursor.fetchone()
-        inviter = res1[1]
+        # sql1 = f""" SELECT a.user_id, a.user_name FROM `chat_user` as a
+        #             where a.user_id = {first_user_id};"""
+        # sqlcursor.execute(sql1)
+        # res1 = sqlcursor.fetchone()
+        # inviter = res1[0]
 
         slq2 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
-                        VALUES ({first_user_id},{room_id},'{create_time}','{create_time}','{inviter}',0,0,0);'''
+                        VALUES ({first_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0);'''
         print(slq2)
         sqlcursor.execute(slq2)
         db.commit()
         
 
         slq3 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
-                        VALUES ({second_user_id},{room_id},'{create_time}','{create_time}','{inviter}',0,0,0);'''
+                        VALUES ({second_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0);'''
         print(slq3)
         sqlcursor.execute(slq3)
         db.commit()
