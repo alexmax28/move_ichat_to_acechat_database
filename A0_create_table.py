@@ -123,7 +123,7 @@ CREATE TABLE `chat_record` (
   `room_id` bigint(20) DEFAULT NULL,
   `room_name` varchar(50) DEFAULT NULL,
   `account_type` int(11) DEFAULT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `user_name` varchar(50) DEFAULT NULL,
   `nick_name` varchar(50) DEFAULT NULL,
   `room_type` int(11) DEFAULT NULL,
