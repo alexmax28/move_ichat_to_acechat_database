@@ -109,7 +109,9 @@ CREATE TABLE `chat_friend` (
   `check_flag` int(11) DEFAULT NULL,
   `remark_1` varchar(128) DEFAULT NULL,
   `remark_2` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `room_id` bigint(20) DEFAULT NULL COMMENT '群組ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `chat_friend_UN` (`user_id_1`,`user_id_2`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
 
@@ -154,21 +156,6 @@ CREATE TABLE `chat_room` (
   PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
-# # 10/5 chart_room_user  room_id 欄位改型態 varchar(100)
-# create_table_chat_room_user = '''
-# CREATE TABLE `chat_room_user` (
-#   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-#   `user_id` bigint(20) DEFAULT NULL,
-#   `room_id` varchar(100) DEFAULT NULL,
-#   `create_time` datetime DEFAULT NULL,
-#   `leave_time` datetime DEFAULT NULL,
-#   `inviter` varchar(50) DEFAULT NULL,
-#   `inviter_type` int(11) DEFAULT NULL,
-#   `mute_type` int(11) DEFAULT NULL,
-#   `notification_flag` int(11) NOT NULL DEFAULT '0',
-#   PRIMARY KEY (`id`)
-# ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-# '''
 
 create_table_chat_user = '''
 CREATE TABLE `chat_user` (
@@ -233,42 +220,43 @@ CREATE TABLE `chat_room_user` (
   `clean_time` datetime(3) DEFAULT NULL COMMENT '聊天清空時間',
   `read_destory_status` int(11) DEFAULT '0' COMMENT '閱後消毀開關 0:關閉 1:開啟',
   `room_user_type` int(11) NOT NULL DEFAULT '0' COMMENT '0:一般用戶 1:房間管理員',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `chat_room_user_UN` (`user_id`,`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
 
 try:
-        # # 执行sql语句
-        # sqlcursor.execute(create_table_room_user_test)
-        # # 提交到数据库执行
-        # db.commit()
+        # 执行sql语句
+        sqlcursor.execute(create_table_room_user_test)
+        # 提交到数据库执行
+        db.commit()
 
-        # sqlcursor.execute(create_table_muc_storage)
-        # db.commit()
+        sqlcursor.execute(create_table_muc_storage)
+        db.commit()
 
-        # sqlcursor.execute(create_table_chat_friend_test)
-        # db.commit()
+        sqlcursor.execute(create_table_chat_friend_test)
+        db.commit()
 
 
-        # # chat_friend
-        # sqlcursor.execute(create_table_chat_friend)
-        # db.commit()
+        # chat_friend
+        sqlcursor.execute(create_table_chat_friend)
+        db.commit()
         
-        # # chat_record
-        # sqlcursor.execute(create_table_chat_record)
-        # db.commit()
+        # chat_record
+        sqlcursor.execute(create_table_chat_record)
+        db.commit()
 
-        # # chat_room
-        # sqlcursor.execute(create_table_chat_room)
-        # db.commit()
+        # chat_room
+        sqlcursor.execute(create_table_chat_room)
+        db.commit()
         
-        # # chat_user
-        # sqlcursor.execute(create_table_chat_user)
-        # db.commit()
+        # chat_user
+        sqlcursor.execute(create_table_chat_user)
+        db.commit()
 
-        # # im_mapping
-        # sqlcursor.execute(create_table_im_mapping)
-        # db.commit()
+        # im_mapping
+        sqlcursor.execute(create_table_im_mapping)
+        db.commit()
 
         # chat_room_user
         sqlcursor.execute(create_table_chat_room_user)

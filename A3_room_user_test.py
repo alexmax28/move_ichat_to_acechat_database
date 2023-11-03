@@ -43,9 +43,14 @@ eight_hours = datetime.timedelta(hours=8)
 # 示例日期时间字符串
 start_date_time_string = env_start_time
 end_date_time_string = env_end_time
+
 # 使用strptime()方法将日期时间字符串解析为日期时间对象
-start_dt_object = datetime.datetime.strptime(start_date_time_string, '%Y-%m-%d %H:%M:%S.%f')
-end_dt_object = datetime.datetime.strptime(end_date_time_string, '%Y-%m-%d %H:%M:%S.%f')
+# start_dt_object = datetime.datetime.strptime(start_date_time_string, '%Y-%m-%d %H:%M:%S.%f')
+# end_dt_object = datetime.datetime.strptime(end_date_time_string, '%Y-%m-%d %H:%M:%S.%f')
+
+start_dt_object = datetime.datetime.strptime(start_date_time_string, '%Y-%m-%d')
+end_dt_object = datetime.datetime.strptime(end_date_time_string, '%Y-%m-%d')
+
 # 使用timestamp()方法将日期时间对象转换为时间戳
 start_timestamp = start_dt_object.timestamp()
 end_timestamp = end_dt_object.timestamp()

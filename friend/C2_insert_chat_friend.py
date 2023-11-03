@@ -37,7 +37,7 @@ dict = {}
 arr_list = []
 set_list = set()
 final_list = []
-# create_time = datetime.now()
+now_time = datetime.now() - timedelta(days=1)
     # toUserId = cur[i]["toUserId"]
     # userId = cur[i]["userId"]
 time_difference = timedelta(hours=8)
@@ -45,7 +45,8 @@ time_difference = timedelta(hours=8)
 start_time_o = env_start_time
 end_time_o = env_end_time
 
-date_format = "%Y-%m-%d %H:%M:%S.%f"
+# date_format = "%Y-%m-%d %H:%M:%S.%f"
+date_format = "%Y-%m-%d"
 # start_time = datetime.strptime(start_time_o, date_format) - time_difference
 # end_time = datetime.strptime(end_time_o, date_format) - time_difference
 
@@ -73,18 +74,15 @@ try:
         print(len(resjoin))
         # print(resjoin)
         for a in range(len(resjoin)):
-            #  print(f"{resjoin[a][0]},{resjoin[a][1]}")
-            # print(f"0: {type(resjoin[a][0])}")
-            # print(f"1: {type(resjoin[a][1])}")
             id_1 = resjoin[a][0]
             id_2 = resjoin[a][1]
             create_time = resjoin[a][2]
             # print(create_time)
             if id_1 < id_2:
-                id_str = f"{id_1},{id_2},{create_time}"
+                id_str = f"{id_1},{id_2}"
                 set_list.add(id_str)
             else:
-                id_str = f"{id_2},{id_1},{create_time}"
+                id_str = f"{id_2},{id_1}"
                 set_list.add(id_str)
             # print(set_list)
         
@@ -93,6 +91,8 @@ except Exception as e:
             # 如果发生错误则回滚
             db.rollback()
             print(f"Error: {str(e)}")
+
+
 # print(set_list)
 for ans in set_list:
     str = f"{ans}"
@@ -104,14 +104,14 @@ for b in range(0,len(final_list)):
      
     id_1 = final_list[b][0]
     id_2 = final_list[b][1]
-    createTtime = final_list[b][2]
+    # createTtime = final_list[b][2]
     # print(f"id_1: {id_1}")
     # print(f"type: {type(id_1)}")
     # print(f"id_2: {id_2}")
 
     try:
         sql3 = f"""INSERT INTO chat_friend(user_id_1,user_id_2,create_time,check_flag,remark_1,remark_2)
-                        VALUES ({int(id_1)},{int(id_2)},'{createTtime}',1,NULL,NULL); """
+                        VALUES ({int(id_1)},{int(id_2)},'{now_time}',1,NULL,NULL); """
         
         print(sql3)
         cursor.execute(sql3)

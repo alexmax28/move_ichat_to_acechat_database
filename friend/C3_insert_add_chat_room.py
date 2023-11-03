@@ -16,28 +16,9 @@ env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
 
-# myclient = pymongo.MongoClient(env_mongodb_url)
-
-# mydb = myclient["imapi"]
-# mycol = mydb["u_friends"]
-# cur = mycol.find()
-
-# count = cur.count()
-# print(count)
-
-# # # ========================sql 232
-# db = pymysql.connect(host='192.168.100.232',
-#                      user='root',
-
-#                      password='XhR7r5yPBlmImHAD',
-#                      database='iChat')
-
-# # # ========================sql 210
-# db = pymysql.connect(host='192.168.100.210',
-#                      user='root',
-
-#                      password='12345678',
-#                      database='alexjdbc')
+# # 單聊加入chat_room的時間條件
+# env_for_c3_time_start = os.getenv("FORC3ADD_CHAT_ROOM_START")
+# env_for_c3_time_end = os.getenv("FORC3ADD_CHAT_ROOM_END")
 
 # ========================sql env
 db = pymysql.connect(host=f'{env_url}',
@@ -54,15 +35,20 @@ start_time_o = env_start_time
 end_time_o = env_end_time
 
 date_format = "%Y-%m-%d %H:%M:%S.%f"
-# start_time = datetime.strptime(start_time_o, date_format) - time_difference
-# end_time = datetime.strptime(end_time_o, date_format) - time_difference
+date_format_2 = "%Y-%m-%d"
 
-start_time = datetime.strptime(start_time_o, date_format)
-end_time = datetime.strptime(end_time_o, date_format)
+start = datetime.strptime(env_start_time, date_format_2)
+end = datetime.strptime(env_end_time, date_format_2)
+print(f"start:{start}")
+print(f"end:{end}")
 
+
+# sql4 = f""" SELECT a.user_id_1, a.user_id_2, a.create_time FROM `chat_friend` as a
+#                     where a.create_time >='{start_time}' AND a.create_time <'{end_time}'
+#                     order by a.user_id_1 ASC ;"""
 
 sql4 = f""" SELECT a.user_id_1, a.user_id_2, a.create_time FROM `chat_friend` as a
-                    where a.create_time >='{start_time}' AND a.create_time <'{end_time}'
+                    where a.create_time >='{start}' AND a.create_time < '{end}'
                     order by a.user_id_1 ASC ;"""
 
 
@@ -76,22 +62,6 @@ for i in range(0,count):
     try:
         room_icon = f"{resjoin[i][0]}|{resjoin[i][1]}"
         print(f"room_icon: {room_icon}")
-
-
-        # sql5 = f''' select user_id, nick_name from chat_user
-        #     where user_id = {resjoin[i][0]}'''
-        # cursor.execute(sql5)
-        # ressql5 = cursor.fetchone()
-        # # print(ressql5[1])
-
-        # sql6 = f''' select user_id, nick_name from chat_user
-        #     where user_id = {resjoin[i][1]}'''
-        # cursor.execute(sql6)
-        # ressql6 = cursor.fetchone()
-        # # print(ressql6[1])
-
-        # room_name = f"{ressql5[1]}|{ressql6[1]}"
-
         room_name = f"{resjoin[i][0]}|{resjoin[i][1]}"
         createTime = f"{resjoin[i][2]}"
 
@@ -102,6 +72,7 @@ for i in range(0,count):
                 VALUES ('{room_name}','{createTime}',0,'{room_icon}',1,2,'zlcai',0,{resjoin[i][0]});"""
         cursor.execute(sql)
         db.commit()
+
 
     except Exception as e:
             # 如果发生错误则回滚

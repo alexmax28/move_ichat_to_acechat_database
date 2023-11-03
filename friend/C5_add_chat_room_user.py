@@ -16,34 +16,9 @@ env_database = os.getenv("DATABASE")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
 
-# =========mongo
-# myclient = pymongo.MongoClient("mongodb://192.168.100.241:28018/")
-
-# # shiku_room
-# mydb = myclient["imRoom"]
-# mycol = mydb["shiku_room"]
-# cur = mycol.find()
-
-# # shiku_room_member
-# mycol2 = mydb["shiku_room_member"]
-# shiku_room_member = mycol2.find()
-
-# count = shiku_room_member.count()
-
-
-# ========================sql 232
-# db = pymysql.connect(host='192.168.100.232',
-#                      user='root',
-
-#                      password='XhR7r5yPBlmImHAD',
-#                      database='iChat')
-
-# # ========================sql 210
-# db = pymysql.connect(host='192.168.100.210',
-#                      user='root',
-
-#                      password='12345678',
-#                      database='alexjdbc')
+# # 單聊加入chat_room的時間條件
+# env_for_c3_time_start = os.getenv("FORC3ADD_CHAT_ROOM_START")
+# env_for_c3_time_end = os.getenv("FORC3ADD_CHAT_ROOM_END")
 
 # ========================sql env
 db = pymysql.connect(host=f'{env_url}',
@@ -61,14 +36,16 @@ start_time_o = env_start_time
 end_time_o = env_end_time
 
 date_format = "%Y-%m-%d %H:%M:%S.%f"
-# start_time = datetime.strptime(start_time_o, date_format) - time_difference
-# end_time = datetime.strptime(end_time_o, date_format) - time_difference
+date_format_2 = "%Y-%m-%d"
 
-start_time = datetime.strptime(start_time_o, date_format)
-end_time = datetime.strptime(end_time_o, date_format)
+start = datetime.strptime(env_start_time, date_format_2)
+end = datetime.strptime(env_end_time, date_format_2)
+
+# sql = f""" SELECT a.room_id, a.room_icon, a.create_time FROM `chat_room` as a
+#             where a.type = 0 and a.create_time >='{start_time}' AND create_time <'{end_time}';"""
 
 sql = f""" SELECT a.room_id, a.room_icon, a.create_time FROM `chat_room` as a
-            where a.type = 0 and a.create_time >='{start_time}' AND create_time <'{end_time}';"""
+            where a.type = 0 and a.create_time >='{start}' AND a.create_time < '{end}';"""
 
 sqlcursor.execute(sql)
 res = sqlcursor.fetchall()
@@ -106,6 +83,7 @@ for i in range(0,count):
         # sqlcursor.execute(sql1)
         # res1 = sqlcursor.fetchone()
         # inviter = res1[0]
+
 
         slq2 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
                         VALUES ({first_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0);'''
