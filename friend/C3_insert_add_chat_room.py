@@ -15,6 +15,7 @@ env_database = os.getenv("DATABASE")
 env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
+env_channel_account = os.getenv("CHANNEL_ACCOUNT")
 
 # # 單聊加入chat_room的時間條件
 # env_for_c3_time_start = os.getenv("FORC3ADD_CHAT_ROOM_START")
@@ -33,6 +34,7 @@ time_difference = timedelta(hours=8)
 
 start_time_o = env_start_time
 end_time_o = env_end_time
+channel_account = env_channel_account
 
 date_format = "%Y-%m-%d %H:%M:%S.%f"
 date_format_2 = "%Y-%m-%d"
@@ -69,7 +71,7 @@ for i in range(0,count):
 
         # 塞chat_room
         sql = f"""INSERT INTO chat_room(room_name,create_time,type,room_icon,content_id,user_count,channel_account,room_mute_type,user_id)
-                VALUES ('{room_name}','{createTime}',0,'{room_icon}',1,2,'zlcai',0,{resjoin[i][0]});"""
+                VALUES ('{room_name}','{createTime}',0,'{room_icon}',1,2,'{channel_account}',0,{resjoin[i][0]});"""
         cursor.execute(sql)
         db.commit()
 

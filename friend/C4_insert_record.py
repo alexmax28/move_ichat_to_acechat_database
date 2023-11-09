@@ -20,6 +20,7 @@ env_database = os.getenv("DATABASE")
 env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
+env_channel_account = os.getenv("CHANNEL_ACCOUNT")
 # 執行開始時間
 start_run_time = datetime.datetime.now()
 
@@ -35,22 +36,31 @@ time_difference = timedelta(hours=8)
 # 今年
 # start_date = datetime.datetime(2023, 1, 1, 00, 00, 00, 000)
 # end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
-start_date = datetime.datetime(2023, 11, 2)
-end_date = datetime.datetime(2023, 11, 3)
+# start_date = datetime.datetime(2023, 1, 1).timestamp()
+# end_date = datetime.datetime(2023, 11, 4).timestamp()
 
 # # 每日
-# start_date = datetime.datetime(2023, 11, 1, 8, 00, 00, 000)
-# end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
+# tart_date = datetime.datetime(2023, 11, 4).timestamp()
+# end_date = datetime.datetime(2023, 11, 5).timestamp()
+
+start_date = datetime.datetime(2023, 11, 8)
+end_date = datetime.datetime(2023, 11, 9)
+
+print(f"end_date:{start_date}")
+print(f"end_date:{end_date}")
 
 
-print(end_date)
-
+# query = {"ts" : {"$gte":start_date, "$lt" : end_date}}
+# cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
 
 query = {"ts" : {"$gte":start_date, "$lt" : end_date}}
-cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
+# cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
+
+cur = mycol.find(query)
+
 # 總數
 mongocount = cur.count()
-print(mongocount)
+print(f"時間區間收尋到的筆數: {mongocount}")
 
 # # ========================sql 232
 # db = pymysql.connect(host='192.168.100.232',
@@ -77,7 +87,8 @@ cursor = db.cursor()
 
 # 總數
 # mysqlcount = mycol.count()
-print(mongocount)
+# print(mongocount)
+channel_account = env_channel_account
 
 # print(cur)
 for n in range(0,mongocount):
@@ -150,7 +161,7 @@ for n in range(0,mongocount):
     room_type = 0
     
 
-    channel_account = 'None'
+    
     uuId = 'None'
     
 
@@ -176,7 +187,6 @@ for n in range(0,mongocount):
         
         print(f"content_type_m: {content_type_m}")
         print(f"room_id_m: {room_id_m}")
-
         print(f"body2_content: {body2_content}")
         print(f"create_time: {create_time}")
         print(f"room_id: {room_id}")

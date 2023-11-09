@@ -132,6 +132,7 @@ CREATE TABLE `chat_record` (
   `uuId` varchar(128) DEFAULT NULL,
   `body2_messageId` varchar(255) DEFAULT NULL,
   `objectId_messageId` varchar(255) DEFAULT NULL,
+  `read_destory_status` int(11) unsigned DEFAULT '0' COMMENT '閱後消毀狀態',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
@@ -153,6 +154,7 @@ CREATE TABLE `chat_room` (
   `update_time` datetime DEFAULT NULL COMMENT '更新時間',
   `im_room_id` varchar(100) DEFAULT NULL,
   `jid` varchar(100) DEFAULT NULL,
+  `share_file_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '群共享文件開關 0:關 1:開',
   PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''

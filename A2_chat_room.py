@@ -19,6 +19,7 @@ env_database = os.getenv("DATABASE")
 env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
+env_channel_account = os.getenv("CHANNEL_ACCOUNT")
 
 # =========mongo
 myclient = pymongo.MongoClient(env_mongodb_url)
@@ -80,12 +81,13 @@ for n in range(0,mongocount):
     eight_hours = datetime.timedelta(hours=8)
     new_timestamp = current_timestamp 
     create_time = datetime.datetime.fromtimestamp(new_timestamp)
+    channel_account = env_channel_account
 
     im_room_id = cur[n]['_id']
     im_jid = cur[n]['jid']
     user_count = cur[n]['userSize']
     # 加入 im_room_id,im_jid 10/5
-    inputdb = f"'{cur[n]['name']}','{create_time}',1,'/1687162246486.jpg',0,{user_count},'zlcai',0,{cur[n]['userId']},'{im_room_id}','{im_jid}','{create_time}'"
+    inputdb = f"'{cur[n]['name']}','{create_time}',1,'/1687162246486.jpg',1,{user_count},'{channel_account}',0,{cur[n]['userId']},'{im_room_id}','{im_jid}','{create_time}'"
     print(inputdb)
     
     # 塞chat_room

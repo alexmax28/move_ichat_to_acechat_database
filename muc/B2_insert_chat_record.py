@@ -89,7 +89,7 @@ for i in range(0,count):
     try:
         #  # test
         sql4 = f"""INSERT INTO chat_record(chat_content, create_time, room_id, room_name, account_type ,user_id, user_name, nick_name, room_type, content_type, channel_account, uuId, body2_messageId, objectId_messageId)
-                        VALUES ('{resjoin[i][0]}','{resjoin[i][1]}',{int(resjoin[i][2])},'{resjoin[i][3]}',{int(resjoin[i][4])},{int(resjoin[i][5])},'{resjoin[i][6]}','{resjoin[i][7]}',{resjoin[i][8]},{resjoin[i][9]},'{resjoin[i][10]}','{resjoin[i][11]}','{resjoin[i][12]}','{resjoin[i][13]}')"""
+                        VALUES ('{resjoin[i][0]}',DATE_ADD('{resjoin[i][1]}', INTERVAL 8 HOUR),{int(resjoin[i][2])},'{resjoin[i][3]}',{int(resjoin[i][4])},{int(resjoin[i][5])},'{resjoin[i][6]}','{resjoin[i][7]}',{resjoin[i][8]},{resjoin[i][9]},'{resjoin[i][10]}','{resjoin[i][11]}','{resjoin[i][12]}','{resjoin[i][13]}')"""
         print(sql4)
         sqlcursor.execute(sql4)
         db.commit()
@@ -101,3 +101,5 @@ for i in range(0,count):
    
 # 关闭数据库连接
 db.close()
+
+

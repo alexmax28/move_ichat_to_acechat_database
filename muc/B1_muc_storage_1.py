@@ -21,6 +21,7 @@ env_database = os.getenv("DATABASE")
 env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("MUC_START_TIME")
 env_end_time = os.getenv("MUC_END_TIME")
+env_channel_account = os.getenv("CHANNEL_ACCOUNT")
 
 # =========mongo
 myclient = pymongo.MongoClient(env_mongodb_url)
@@ -36,20 +37,22 @@ time_difference = timedelta(hours=8)
 # 今年
 # start_date = datetime.datetime(2023, 1, 1, 00, 00, 00, 000)
 # end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
-start_date = datetime.datetime(2023, 11, 2)
-end_date = datetime.datetime(2023, 11, 3)
+
+# start_date = datetime.datetime(2023, 1, 1).timestamp()
+# end_date = datetime.datetime(2023, 11, 4).timestamp()
 
 # # 每日
-# start_date = datetime.datetime(2023, 11, 1, 8, 00, 00, 000)
-# end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
+# 11/5 create_time 改成 body2.timeSend
+start_date = datetime.datetime(2023, 11, 8).timestamp()
+end_date = datetime.datetime(2023, 11, 9).timestamp()
 
 # # # 修改少的
 # start_date = datetime.datetime(2023, 10, 27, 2, 1, 8, 000)
 # end_date = datetime.datetime(2023, 10, 27, 2, 1, 15, 000)
 
-
-query = {"timestamp" : {"$gte":start_date,"$lt":end_date}}
-cur = mycol.find(query).sort([("timestamp", pymongo.ASCENDING)])
+# 11/5 create_time 改成 body2.timeSend
+query = {"body2.timeSend" : {"$gte":start_date,"$lt":end_date}}
+cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
 
 # 總數
 mongocount = cur.count()
@@ -77,19 +80,18 @@ for i in range(0,mongocount):
         body2_content = cur[i]['body2']['content']
     else:
         body2_content = ''
-# 10/29原始日期設定
-    create_time_ts = cur[i]['timestamp']
-    # create_time = create_time_ts + timedelta(hours=8)
-    create_time = create_time_ts
-    print(create_time)
-
-# # 修改後日期設定
+# # 10/29原始日期設定
 #     create_time_ts = cur[i]['timestamp']
 #     # create_time = create_time_ts + timedelta(hours=8)
-#     create_time = datetime.datetime.strptime(create_time_ts, '%Y-%m-%d %H:%M:%S.%f')
-#     # create_time = create_time_ts
+#     create_time = create_time_ts
 #     print(create_time)
 
+# # 11/5 create_time 改成 body2.timeSend
+#     timeSend = cur[i]['body2']['timeSend']
+#     create_time = datetime.datetime.fromtimestamp(timeSend)
+
+# 11/7 create_time 改抓 timestamp
+    create_time = cur[i]['timestamp']
 
     room_jido = cur[i]['room_jid']
     room_jid = re.sub(pattern, "", room_jido) #room_id
@@ -99,7 +101,7 @@ for i in range(0,mongocount):
     user_name = user_id
     nick_name = user_id
     room_type = 1
-    channel_account = 'null'
+    channel_account = env_channel_account
     uuId = 'null'
     body2_messageId = cur[i]['body2']['messageId']
     print(f'body2_messageId: {body2_messageId}')
@@ -148,7 +150,7 @@ for i in range(0,mongocount):
     
     try:
         sql3 = f"""INSERT INTO muc_storage(chat_content,create_time,room_id,room_name,account_type,user_id,user_name,nick_name,room_type,content_type,channel_account,uuId,body2_messageId,objectId_messageId)
-                        VALUES ('{body2_content}','{create_time}','{room_jid}','{room_name}',{account_type},{user_id},'{user_name}','{nick_name}',{room_type},{content_type},{channel_account},{uuId},'{body2_messageId}','{objectId_messageId}')"""
+                        VALUES ('{body2_content}','{create_time}','{room_jid}','{room_name}',{account_type},{user_id},'{user_name}','{nick_name}',{room_type},{content_type},'{channel_account}',{uuId},'{body2_messageId}','{objectId_messageId}')"""
         sqlcursor.execute(sql3)
         db.commit()
         print(sql3)

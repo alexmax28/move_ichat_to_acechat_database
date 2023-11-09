@@ -16,6 +16,7 @@ env_database = os.getenv("DATABASE")
 env_mongodb_url = os.getenv("MONGODB_URL")
 env_start_time = os.getenv("START_TIME")
 env_end_time = os.getenv("END_TIME")
+env_channel_account = os.getenv("CHANNEL_ACCOUNT")
 # ============== mongo
 myclient = pymongo.MongoClient(env_mongodb_url)
 mydb = myclient["imapi"]
@@ -109,7 +110,7 @@ for i in range(0,mongocount):
             b = cur[i]['phone']
    
     # print(type(cur))
-    inputdb = f"'{cur[i]['_id']}','{a}','{cur[i]['password']}','{cur[i]['nickname']}','{create_time}',0,{type},1,'{b}','',0,'','zlcai','','','',1,'{areacode}'"
+    inputdb = f"'{cur[i]['_id']}','{a}','{cur[i]['password']}','{cur[i]['nickname']}','{create_time}',0,{type},1,'{b}','',0,'','{env_channel_account}','','','',1,'{areacode}'"
     print(inputdb)
 # 新增測試表 chat_user
     sql = f"""INSERT INTO chat_user(user_id,user_name,password,nick_name,create_time,is_online,type,status,phone,tId,device,firebase_token,channel_account,ip,tId_android,tId_ios,data_type,area_code)
