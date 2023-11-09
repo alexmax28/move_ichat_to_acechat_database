@@ -132,7 +132,7 @@ CREATE TABLE `chat_record` (
   `uuId` varchar(128) DEFAULT NULL,
   `body2_messageId` varchar(255) DEFAULT NULL,
   `objectId_messageId` varchar(255) DEFAULT NULL,
-  `read_destory_status` int(11) unsigned DEFAULT '0' COMMENT '閱後消毀狀態',
+  `read_destory_status` int(11) DEFAULT '0' COMMENT '閱後消毀狀態',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
