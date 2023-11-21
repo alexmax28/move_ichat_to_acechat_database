@@ -34,25 +34,30 @@ mycol = mydb["muc_history"]
 #大於等於start_time 小於end_time
 time_difference = timedelta(hours=8)
 
-# 今年
-# start_date = datetime.datetime(2023, 1, 1, 00, 00, 00, 000)
-# end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
-
+# # 今年
 # start_date = datetime.datetime(2023, 1, 1).timestamp()
-# end_date = datetime.datetime(2023, 11, 4).timestamp()
+# end_date = datetime.datetime(2023, 11, 17).timestamp()
+
 
 # # 每日
 # 11/5 create_time 改成 body2.timeSend
-start_date = datetime.datetime(2023, 11, 12).timestamp()
-end_date = datetime.datetime(2023, 11, 13).timestamp()
+# start_date = datetime.datetime(2023, 11, 18).timestamp()
+# end_date = datetime.datetime(2023, 11, 19).timestamp()
+start_date = datetime.datetime(2023, 11, 20)
+end_date = datetime.datetime(2023, 11, 21)
 
-# # # 修改少的
-# start_date = datetime.datetime(2023, 10, 27, 2, 1, 8, 000)
-# end_date = datetime.datetime(2023, 10, 27, 2, 1, 15, 000)
+# # # # 修改少的
+# start_date = datetime.datetime(2023, 11, 17,7,56,00).timestamp()
+# end_date = datetime.datetime(2023, 11, 17,7,58,00).timestamp()
 
-# 11/5 create_time 改成 body2.timeSend
-query = {"body2.timeSend" : {"$gte":start_date,"$lt":end_date}}
-cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
+
+# # 11/5 create_time 改成 body2.timeSend
+# query = {"body2.timeSend" : {"$gte":start_date,"$lt":end_date}}
+# cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
+
+# 11/18 create_time 改成 timestamp
+query = {"timestamp" : {"$gte":start_date,"$lt":end_date}}
+cur = mycol.find(query).sort([("timestamp", pymongo.ASCENDING)])
 
 # 總數
 mongocount = cur.count()

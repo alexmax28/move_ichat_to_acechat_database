@@ -222,6 +222,7 @@ CREATE TABLE `chat_room_user` (
   `clean_time` datetime(3) DEFAULT NULL COMMENT '聊天清空時間',
   `read_destory_status` int(11) DEFAULT '0' COMMENT '閱後消毀開關 0:關閉 1:開啟',
   `room_user_type` int(11) NOT NULL DEFAULT '0' COMMENT '0:一般用戶 1:房間管理員',
+  `update_time` datetime DEFAULT NULL COMMENT '更新時間',
   PRIMARY KEY (`id`),
   UNIQUE KEY `chat_room_user_UN` (`user_id`,`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

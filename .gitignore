@@ -5,3 +5,4 @@ test/test_chat_friend_add_room_id.py
 test/test_C2_BK.py
 test/old_user_bk.py
 test/fix_chat_user_alex.py
+test/test__insert_chat_friend.py

@@ -85,15 +85,15 @@ for i in range(0,count):
         # inviter = res1[0]
 
 
-        slq2 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
-                        VALUES ({first_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0);'''
+        slq2 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag,clean_time,update_time)
+                        VALUES ({first_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0,'{create_time}','{create_time}');'''
         print(slq2)
         sqlcursor.execute(slq2)
         db.commit()
         
 
-        slq3 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag)
-                        VALUES ({second_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0);'''
+        slq3 = f''' INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag,clean_time,update_time)
+                        VALUES ({second_user_id},{room_id},'{create_time}','{create_time}','{first_user_id}',0,0,0,'{create_time}','{create_time}');'''
         print(slq3)
         sqlcursor.execute(slq3)
         db.commit()

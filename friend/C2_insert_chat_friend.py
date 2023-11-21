@@ -35,9 +35,10 @@ cursor = db.cursor()
 
 dict = {}
 arr_list = []
-set_list = set()
 final_list = []
-now_time = datetime.now() - timedelta(days=1)
+obj = {}
+
+# now_time = datetime.now() - timedelta(days=1)
     # toUserId = cur[i]["toUserId"]
     # userId = cur[i]["userId"]
 time_difference = timedelta(hours=8)
@@ -59,6 +60,7 @@ end_time = datetime.strptime(end_time_o, date_format)
 try:
         # sql4 = f"""select user_id_1,user_id_2,create_time,check_flag,remark_1,remark_2
         #             from chat_friend_test"""
+
         sql3 = f"""select user_id_1,user_id_2,create_time
                     from chat_friend_test
                     where create_time >='{start_time}' AND create_time <'{end_time}'
@@ -71,20 +73,47 @@ try:
         
 
         resjoin = cursor.fetchall()
-        print(len(resjoin))
+        # print(len(resjoin))
         # print(resjoin)
-        for a in range(len(resjoin)):
-            id_1 = resjoin[a][0]
-            id_2 = resjoin[a][1]
-            create_time = resjoin[a][2]
-            # print(create_time)
-            if id_1 < id_2:
-                id_str = f"{id_1},{id_2}"
-                set_list.add(id_str)
-            else:
-                id_str = f"{id_2},{id_1}"
-                set_list.add(id_str)
-            # print(set_list)
+        if len(resjoin) == 0:
+            print("insert chat_friend count : 0")
+        else:
+            for a in range(len(resjoin)):
+                id_1 = resjoin[a][0]
+                id_2 = resjoin[a][1]
+                create_time = resjoin[a][2]
+                # print(create_time)
+                if id_1 < id_2:
+                    id_str_key = f"{id_1},{id_2}"
+                    obj[id_str_key] = [id_1,id_2,create_time]
+                else:
+                    id_str_key = f"{id_2},{id_1}"
+                    obj[id_str_key] = [id_2,id_1,create_time]
+            # print(obj)
+            for item in obj.values():
+                final_list.append(item)
+            print(final_list[0])
+
+            
+# 11/18 把這個迴圈從外面移到裡面
+            for b in final_list:
+                id_1 = b[0]
+                id_2 = b[1]
+                createTtime = b[2]
+
+                try:
+                    sql3 = f"""INSERT INTO chat_friend(user_id_1,user_id_2,create_time,check_flag,remark_1,remark_2)
+                                    VALUES ({int(id_1)},{int(id_2)},'{createTtime}',1,NULL,NULL); """
+                    
+                    print(sql3)
+                    cursor.execute(sql3)
+                    db.commit()
+                    
+                except Exception as e:
+                    # 如果发生错误则回滚
+                    db.rollback()
+                    print(f"Error: {str(e)}")
+# ================================
         
                   
 except Exception as e:
@@ -92,35 +121,6 @@ except Exception as e:
             db.rollback()
             print(f"Error: {str(e)}")
 
-
-# print(set_list)
-for ans in set_list:
-    str = f"{ans}"
-    fstr = str.split(",")
-    final_list.append(fstr)
-# print(final_list)    
-# print(len(final_list))
-for b in range(0,len(final_list)):
-     
-    id_1 = final_list[b][0]
-    id_2 = final_list[b][1]
-    # createTtime = final_list[b][2]
-    # print(f"id_1: {id_1}")
-    # print(f"type: {type(id_1)}")
-    # print(f"id_2: {id_2}")
-
-    try:
-        sql3 = f"""INSERT INTO chat_friend(user_id_1,user_id_2,create_time,check_flag,remark_1,remark_2)
-                        VALUES ({int(id_1)},{int(id_2)},'{now_time}',1,NULL,NULL); """
-        
-        print(sql3)
-        cursor.execute(sql3)
-        db.commit()
-        
-    except Exception as e:
-        # 如果发生错误则回滚
-        db.rollback()
-        print(f"Error: {str(e)}")
 
 # 关闭数据库连接
 db.close()

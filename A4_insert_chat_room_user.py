@@ -60,8 +60,8 @@ for i in range(0,len(resjoin)):
     try:
         # 执行sql语句
         #  # test
-        sql3 = f"""INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag,clean_time)
-                        VALUES ({resjoin[i][1]},'{resjoin[i][2]}','{resjoin[i][3]}','{resjoin[i][4]}','{resjoin[i][5]}',0,0,0,'{resjoin[i][3]}')"""
+        sql3 = f"""INSERT INTO chat_room_user(user_id,room_id,create_time,leave_time,inviter,inviter_type,mute_type,notification_flag,clean_time,update_time)
+                        VALUES ({resjoin[i][1]},'{resjoin[i][2]}','{resjoin[i][3]}','{resjoin[i][4]}','{resjoin[i][5]}',0,0,0,'{resjoin[i][3]}','{resjoin[i][3]}')"""
         
         print(sql3)
         sqlcursor.execute(sql3)

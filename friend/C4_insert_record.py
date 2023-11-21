@@ -33,18 +33,13 @@ mycol = mydb["tig_ma_msgs"]
 # 濾時間
 time_difference = timedelta(hours=8)
 
-# 今年
-# start_date = datetime.datetime(2023, 1, 1, 00, 00, 00, 000)
-# end_date = datetime.datetime(2023, 11, 2, 8, 00, 00, 000)
-# start_date = datetime.datetime(2023, 1, 1).timestamp()
-# end_date = datetime.datetime(2023, 11, 4).timestamp()
+# # 今年
+# start_date = datetime.datetime(2023, 1, 1)
+# end_date = datetime.datetime(2023, 11, 17)
 
-# # 每日
-# tart_date = datetime.datetime(2023, 11, 4).timestamp()
-# end_date = datetime.datetime(2023, 11, 5).timestamp()
-
-start_date = datetime.datetime(2023, 11, 12)
-end_date = datetime.datetime(2023, 11, 13)
+# 每日
+start_date = datetime.datetime(2023, 11, 20)
+end_date = datetime.datetime(2023, 11, 21)
 
 print(f"end_date:{start_date}")
 print(f"end_date:{end_date}")
