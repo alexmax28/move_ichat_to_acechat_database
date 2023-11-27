@@ -155,7 +155,8 @@ CREATE TABLE `chat_room` (
   `im_room_id` varchar(100) DEFAULT NULL,
   `jid` varchar(100) DEFAULT NULL,
   `share_file_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '群共享文件開關 0:關 1:開',
-  PRIMARY KEY (`room_id`)
+  PRIMARY KEY (`room_id`),
+  KEY `chat_room_IDX` (`room_name`,`type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
 
@@ -222,7 +223,8 @@ CREATE TABLE `chat_room_user` (
   `clean_time` datetime(3) DEFAULT NULL COMMENT '聊天清空時間',
   `read_destory_status` int(11) DEFAULT '0' COMMENT '閱後消毀開關 0:關閉 1:開啟',
   `room_user_type` int(11) NOT NULL DEFAULT '0' COMMENT '0:一般用戶 1:房間管理員',
-  `update_time` datetime DEFAULT NULL COMMENT '更新時間',
+  `update_time` datetime(3) DEFAULT NULL COMMENT '更新時間',
+  `pin_room_time` datetime(3) DEFAULT NULL COMMENT '釘選時間',
   PRIMARY KEY (`id`),
   UNIQUE KEY `chat_room_user_UN` (`user_id`,`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

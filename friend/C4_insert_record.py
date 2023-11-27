@@ -37,9 +37,21 @@ time_difference = timedelta(hours=8)
 # start_date = datetime.datetime(2023, 1, 1)
 # end_date = datetime.datetime(2023, 11, 17)
 
-# 每日
-start_date = datetime.datetime(2023, 11, 20)
-end_date = datetime.datetime(2023, 11, 21)
+
+# # 舊每日
+# start_date = datetime.datetime(2023, 11, 24)
+# end_date = datetime.datetime(2023, 11, 25)
+
+# # 11/25先跑修改
+# start_date = datetime.datetime(2023, 11, 24 ,17,16)
+# end_date = datetime.datetime(2023, 11, 24,17,21)
+
+# 用body2.timeSend做時間區間
+# 新每日
+start_date_o = datetime.datetime(2023, 11, 26)
+end_date_o = datetime.datetime(2023, 11, 27)
+start_date = datetime.datetime.timestamp(start_date_o)
+end_date = datetime.datetime.timestamp(end_date_o)
 
 print(f"end_date:{start_date}")
 print(f"end_date:{end_date}")
@@ -48,7 +60,7 @@ print(f"end_date:{end_date}")
 # query = {"ts" : {"$gte":start_date, "$lt" : end_date}}
 # cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
 
-query = {"ts" : {"$gte":start_date, "$lt" : end_date}}
+query = {"body2.timeSend" : {"$gte":start_date, "$lt" : end_date}}
 # cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
 
 cur = mycol.find(query)
