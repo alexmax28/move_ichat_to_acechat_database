@@ -154,7 +154,7 @@ CREATE TABLE `chat_room` (
   `update_time` datetime DEFAULT NULL COMMENT '更新時間',
   `im_room_id` varchar(100) DEFAULT NULL,
   `jid` varchar(100) DEFAULT NULL,
-  `share_file_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '群共享文件開關 0:關 1:開',
+  `share_file_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '群共享文件開關 0:關 1:開',
   PRIMARY KEY (`room_id`),
   KEY `chat_room_IDX` (`room_name`,`type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

@@ -87,12 +87,14 @@ for n in range(0,mongocount):
     im_jid = cur[n]['jid']
     user_count = cur[n]['userSize']
     # 加入 im_room_id,im_jid 10/5
-    inputdb = f"'{cur[n]['name']}','{create_time}',1,'/1687162246486.jpg',1,{user_count},'{channel_account}',0,{cur[n]['userId']},'{im_room_id}','{im_jid}','{create_time}'"
+    # 加入 share_file_status 12/5 預設為1
+    inputdb = f"'{cur[n]['name']}','{create_time}',1,'/1687162246486.jpg',1,{user_count},'{channel_account}',0,{cur[n]['userId']},'{im_room_id}','{im_jid}','{create_time}',1"
     print(inputdb)
     
     # 塞chat_room
     # 加入 im_room_id,im_jid 10/5
-    sql = f"""INSERT INTO chat_room(room_name,create_time,type,room_icon,content_id,user_count,channel_account,room_mute_type,user_id,im_room_id,jid,update_time)
+    # 加入 share_file_status 12/5 預設為1
+    sql = f"""INSERT INTO chat_room(room_name,create_time,type,room_icon,content_id,user_count,channel_account,room_mute_type,user_id,im_room_id,jid,update_time,share_file_status)
             VALUES ({inputdb})"""
     # room_id
     sql3 = f"""INSERT INTO im_mapping(room_id,im_room_id,im_jid)

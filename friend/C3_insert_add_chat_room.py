@@ -70,8 +70,8 @@ for i in range(0,count):
         print(f"room_name: {room_name}")
 
         # 塞chat_room
-        sql = f"""INSERT INTO chat_room(room_name,create_time,type,room_icon,content_id,user_count,channel_account,room_mute_type,user_id)
-                VALUES ('{room_name}','{createTime}',0,'{room_icon}',1,2,'{channel_account}',0,{resjoin[i][0]});"""
+        sql = f"""INSERT INTO chat_room(room_name,create_time,type,room_icon,content_id,user_count,channel_account,room_mute_type,user_id,share_file_status)
+                VALUES ('{room_name}','{createTime}',0,'{room_icon}',1,2,'{channel_account}',0,{resjoin[i][0]},1);"""
         cursor.execute(sql)
         db.commit()
 

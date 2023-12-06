@@ -48,8 +48,8 @@ time_difference = timedelta(hours=8)
 
 # 用body2.timeSend做時間區間
 # 新每日
-start_date_o = datetime.datetime(2023, 11, 26)
-end_date_o = datetime.datetime(2023, 11, 27)
+start_date_o = datetime.datetime(2023, 12, 5)
+end_date_o = datetime.datetime(2023, 12, 6)
 start_date = datetime.datetime.timestamp(start_date_o)
 end_date = datetime.datetime.timestamp(end_date_o)
 
