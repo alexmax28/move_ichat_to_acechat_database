@@ -48,8 +48,9 @@ time_difference = timedelta(hours=8)
 
 # 用body2.timeSend做時間區間
 # 新每日
-start_date_o = datetime.datetime(2023, 12, 5)
-end_date_o = datetime.datetime(2023, 12, 6)
+
+start_date_o = datetime.datetime(2023, 12, 26)
+end_date_o = datetime.datetime(2023, 12, 27)
 start_date = datetime.datetime.timestamp(start_date_o)
 end_date = datetime.datetime.timestamp(end_date_o)
 
@@ -61,7 +62,7 @@ print(f"end_date:{end_date}")
 # cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
 
 query = {"body2.timeSend" : {"$gte":start_date, "$lt" : end_date}}
-# cur = mycol.find(query).sort([("ts", pymongo.ASCENDING)])
+cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
 
 cur = mycol.find(query)
 
@@ -139,7 +140,10 @@ for n in range(0,mongocount):
 
     body2_content = cur[n]['body2']['content']
     # create_time = cur[n]['ts'] + timedelta(hours=8)
-    create_time = cur[n]['ts']
+    # 12/18 換成body2.timesend
+    timestamp = int(cur[n]['body2']['timeSend'])
+    create_time = datetime.datetime.fromtimestamp(timestamp)
+
     fromUserId = cur[n]['body2']['fromUserId']
     toUserId = cur[n]['body2']['toUserId']
 

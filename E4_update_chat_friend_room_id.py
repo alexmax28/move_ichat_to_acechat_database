@@ -29,28 +29,14 @@ sqlcursor = db.cursor()
 try:
     # 执行sql语句
     #  # test
-    sql7 = f"""ALTER TABLE chat_room DROP COLUMN im_room_id;
-        """   
-    print(sql7)
-    sqlcursor.execute(sql7)
-    db.commit()
-
-    sql8 = f"""ALTER TABLE chat_room DROP COLUMN jid;
-        """
-    print(sql8)
-    sqlcursor.execute(sql8)
-    db.commit()
-
-    sql9 = f"""ALTER TABLE chat_record DROP COLUMN body2_messageId;
-        """
-    print(sql9)
-    sqlcursor.execute(sql9)
-    db.commit()
-
-    sql10 = f"""ALTER TABLE chat_record DROP COLUMN objectId_messageId;
-        """
-    print(sql10)
-    sqlcursor.execute(sql10)
+    sql6 = f"""
+        update chat_friend cf
+        inner join chat_room cr on cr.room_name = CONCAT(cf.user_id_1 , '|' , cf.user_id_2)
+        set
+        cf.room_id = cr.room_id ;"""
+    
+    print(sql6)
+    sqlcursor.execute(sql6)
     db.commit()
 
 except Exception as e:

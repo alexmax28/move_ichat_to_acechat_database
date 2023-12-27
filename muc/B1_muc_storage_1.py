@@ -36,28 +36,31 @@ time_difference = timedelta(hours=8)
 
 # # 今年
 # start_date = datetime.datetime(2023, 1, 1).timestamp()
-# end_date = datetime.datetime(2023, 11, 17).timestamp()
+# end_date = datetime.datetime(2023, 12, 18).timestamp()
 
 
 # # 每日
-# 11/5 create_time 改成 body2.timeSend
-# start_date = datetime.datetime(2023, 11, 18).timestamp()
-# end_date = datetime.datetime(2023, 11, 19).timestamp()
-start_date = datetime.datetime(2023, 12, 5)
-end_date = datetime.datetime(2023, 12, 6)
+# 12/17 create_time 改成 body2.timeSend
+start_date = datetime.datetime(2023, 12, 26).timestamp()
+end_date = datetime.datetime(2023, 12, 27).timestamp()
+
+# start_date = datetime.datetime(2023, 1, 1)
+# end_date = datetime.datetime(2023, 12, 16)
 
 # # # # 修改少的
 # start_date = datetime.datetime(2023, 11, 17,7,56,00).timestamp()
 # end_date = datetime.datetime(2023, 11, 17,7,58,00).timestamp()
+print(start_date)
+print(end_date)
 
 
-# # 11/5 create_time 改成 body2.timeSend
-# query = {"body2.timeSend" : {"$gte":start_date,"$lt":end_date}}
-# cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
+# 12/17 create_time 改成 body2.timeSend
+query = {"body2.timeSend" : {"$gte":start_date,"$lt":end_date}}
+cur = mycol.find(query).sort([("body2.timeSend", pymongo.ASCENDING)])
 
-# 11/18 create_time 改成 timestamp
-query = {"timestamp" : {"$gte":start_date,"$lt":end_date}}
-cur = mycol.find(query).sort([("timestamp", pymongo.ASCENDING)])
+# # 11/18 create_time 改成 timestamp
+# query = {"timestamp" : {"$gte":start_date,"$lt":end_date}}
+# cur = mycol.find(query).sort([("timestamp", pymongo.ASCENDING)])
 
 # 總數
 mongocount = cur.count()
@@ -91,12 +94,10 @@ for i in range(0,mongocount):
 #     create_time = create_time_ts
 #     print(create_time)
 
-# # 11/5 create_time 改成 body2.timeSend
-#     timeSend = cur[i]['body2']['timeSend']
-#     create_time = datetime.datetime.fromtimestamp(timeSend)
-
-# 11/7 create_time 改抓 timestamp
-    create_time = cur[i]['timestamp']
+# 12/18 create_time 改抓 body2.timeSend
+    # create_time = cur[i]['timestamp']
+    timestamp = int(cur[i]['body2']['timeSend'])
+    create_time = datetime.datetime.fromtimestamp(timestamp)
 
     room_jido = cur[i]['room_jid']
     room_jid = re.sub(pattern, "", room_jido) #room_id

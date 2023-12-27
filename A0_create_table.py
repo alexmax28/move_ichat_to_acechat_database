@@ -229,6 +229,36 @@ CREATE TABLE `chat_room_user` (
   UNIQUE KEY `chat_room_user_UN` (`user_id`,`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 '''
+# system_user 後台帳號
+create_table_system_user='''
+CREATE TABLE `system_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  `nick_name` varchar(50) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `role_id` bigint(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `update_user_id` bigint(20) DEFAULT NULL,
+  `update_user_name` varchar(50) DEFAULT NULL,
+  `last_login_time` datetime DEFAULT NULL,
+  `tId` varchar(256) DEFAULT NULL,
+  `channel_account` varchar(50) DEFAULT NULL,
+  `data_type` int(11) NOT NULL DEFAULT '0' COMMENT '外部倒入資料 0:內部 1:外部',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+'''
+
+# sequence 
+create_table_sequence='''
+CREATE TABLE `sequence` (
+  `name` varchar(50) NOT NULL,
+  `current_value` int(11) NOT NULL,
+  `increment` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+'''
 
 try:
         # 执行sql语句
@@ -265,6 +295,14 @@ try:
 
         # chat_room_user
         sqlcursor.execute(create_table_chat_room_user)
+        db.commit()
+
+        # system_user
+        sqlcursor.execute(create_table_system_user)
+        db.commit()
+
+        # sequence
+        sqlcursor.execute(create_table_sequence)
         db.commit()
 
 
