@@ -188,6 +188,10 @@ CREATE TABLE `chat_user` (
   `refresh_ios_tId` varchar(512) DEFAULT NULL,
   `refresh_android_tId` varchar(512) DEFAULT NULL,
   `area_code` varchar(10) DEFAULT NULL COMMENT '區碼',
+  `identify_name` varchar(50) DEFAULT NULL COMMENT '識別名稱',
+  `update_identify_time` datetime DEFAULT NULL COMMENT 'identifyName修改時間',
+  `identify_count` int(11) DEFAULT '1' COMMENT 'identifyName修改次數,預設為1',
+  `user_icon` varchar(256) DEFAULT NULL COMMENT 'file_url',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `chat_user_UN` (`user_name`,`area_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
